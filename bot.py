@@ -12,7 +12,6 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
-# Token & Channel ID
 CHANNEL_ID = "C011Q2P3DHB"
 GOOGLE_CALENDER_ID = "B011NTXG1M0"
 
