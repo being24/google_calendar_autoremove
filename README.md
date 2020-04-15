@@ -1,8 +1,19 @@
 # google_calendar_autoremove
-研究室用に作成したgoogleカレンダーの通知を削除するスクリプト  
-アイコンは趣味です
+研究室用に作成したgoogleカレンダーの通知を削除するスクリプト。  
+アイコンは趣味です。
 
-# licence of Imge
+# how to use
+python3でbot.pyを実行すると指定されたチャンネルの指定された送信者の書き込みを削除します。
+
+```sh
+python3 bot.py
+```
+でデフォルト（２日前）以前の書き込みを削除し、
+```sh
+python3 bot.py -d (day:int)
+```
+でday日前からの書き込みを削除します。引数に0以下を入れるとすべて消えます。
+# licence of Icon
 ## Шигастон_Республикасы.png
 
 ```
