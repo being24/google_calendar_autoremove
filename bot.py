@@ -12,9 +12,6 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
-CHANNEL_ID = "C011Q2P3DHB"
-GOOGLE_CALENDER_ID = "B011NTXG1M0"
-
 
 def get_conversations_history(
         token: str,
@@ -73,6 +70,8 @@ if __name__ == "__main__":
 
     read_default = config_ini['DEFAULT']
     Token = read_default.get('OAuth_Token')
+    CHANNEL_ID = read_default.get('CHANNEL_ID')
+    GOOGLE_CALENDER_ID = read_default.get('GOOGLE_CALENDER_ID')
 
     json_data = get_conversations_history(
         Token, CHANNEL_ID, retuen_timestanp_movedbyday())
