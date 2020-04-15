@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import argparse
 import configparser
 import errno
 import json
@@ -35,7 +36,7 @@ def get_conversations_history(
         return json_data
 
 
-def retuen_timestanp_movedbyday(diff: int = -2):
+def retuen_timestanp_movedbyday(diff: int = -1):
     JST = timezone(timedelta(hours=+9), 'JST')
     td_two_days_before = timedelta(days=diff)
     today_at_midnight = datetime.now(JST).replace(
@@ -57,6 +58,16 @@ def delete_message(token: str, channel: str, ts: float):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='slackの邪魔なbotの書き込みを削除するスクリプト')
+
+    parser.add_argument('-d', '--day', help='指定された日数より前のbotの書き込みを削除する')
+    args = parser.parse_args()
+    day = args.day
+
+    if day is not None:
+        day = int(day) * -1
+    else:
+        day = -1
 
     config_ini = configparser.ConfigParser()
     config_ini_path = 'config.ini'
@@ -74,14 +85,14 @@ if __name__ == "__main__":
     GOOGLE_CALENDER_ID = read_default.get('GOOGLE_CALENDER_ID')
 
     json_data = get_conversations_history(
-        Token, CHANNEL_ID, retuen_timestanp_movedbyday())
+        Token, CHANNEL_ID, retuen_timestanp_movedbyday(day))
 
     cnt = 0
 
     for i in json_data["messages"]:
         if 'bot_id' in i:
             if i["bot_id"] == GOOGLE_CALENDER_ID:
-                delete_message(Token, CHANNEL_ID, i["ts"])
+                # delete_message(Token, CHANNEL_ID, i["ts"])
                 cnt += 1
 
     print(f"{cnt} msg del done")
