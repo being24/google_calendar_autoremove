@@ -92,7 +92,7 @@ if __name__ == "__main__":
     for i in json_data["messages"]:
         if 'bot_id' in i:
             if i["bot_id"] == GOOGLE_CALENDER_ID:
-                # delete_message(Token, CHANNEL_ID, i["ts"])
+                delete_message(Token, CHANNEL_ID, i["ts"])
                 cnt += 1
 
     print(f"{cnt} msg del done")
