@@ -13,6 +13,15 @@ python3 bot.py
 python3 bot.py -d (day:int)
 ```
 でday日前からの書き込みを削除します。引数に0以下を入れるとすべて消えます。
+# config.iniの記述について
+```py
+[DEFAULT]
+OAuth_Token = token #ここにslackAPIのトークン
+CHANNEL_ID = id #ここにチャンネルID
+GOOGLE_CALENDER_ID = id #ここにbotのID
+```
+チャンネルIDとbotのIDは書き込みのリンクを取得すると得られます。  
+APIの権限取得が少々面倒ですが、権限不足の場合はAPIの戻り値にその旨と必要な権限が出るのでAPIのテストページで地道にやってくといいです。また、APIを取った人が出来ない事はbotにもできないので、削除等を伴うbotのAPItokenを取得する人はそのワークスペースのadmin以上になる必要があります。（この辺はdiscordの方が柔軟なので見習ってほしい…）
 # licence of Icon
 ## Шигастон_Республикасы.png
 
