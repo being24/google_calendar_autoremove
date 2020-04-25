@@ -69,8 +69,10 @@ if __name__ == "__main__":
     else:
         day = -1
 
+    currentpath = os.path.dirname(os.path.abspath(__file__))
+
     config_ini = configparser.ConfigParser()
-    config_ini_path = 'config.ini'
+    config_ini_path = currentpath + '/config.ini'
 
     if not os.path.exists(config_ini_path):
         raise FileNotFoundError(
