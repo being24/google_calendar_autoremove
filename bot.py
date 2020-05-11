@@ -31,12 +31,12 @@ def get_conversations_history(
     json_data = r.json()
     if json_data.get('ok', False) is False:
         print(json_data)
-        raise Exception('FAILD TO GET CONVERSATIONS HISTORY!')
+        raise Exception('FAILED TO GET CONVERSATIONS HISTORY!')
     else:
         return json_data
 
 
-def retuen_timestanp_movedbyday(diff: int = -1):
+def return_timestamp_movedbyday(diff: int = -1):
     JST = timezone(timedelta(hours=+9), 'JST')
     td_two_days_before = timedelta(days=diff)
     today_at_midnight = datetime.now(JST).replace(
@@ -69,8 +69,7 @@ if __name__ == "__main__":
     else:
         day = -1
 
-    currentpath = os.path.dirname(os.path.abspath(__file__))
-
+    currentpath = "./"
     config_ini = configparser.ConfigParser()
     config_ini_path = currentpath + '/config.ini'
 
@@ -86,15 +85,23 @@ if __name__ == "__main__":
     CHANNEL_ID = read_default.get('CHANNEL_ID')
     GOOGLE_CALENDER_ID = read_default.get('GOOGLE_CALENDER_ID')
 
-    json_data = get_conversations_history(
-        Token, CHANNEL_ID, retuen_timestanp_movedbyday(day))
+    json_data = get_conversations_history(Token, CHANNEL_ID)
 
     cnt = 0
 
     for i in json_data["messages"]:
         if 'bot_id' in i:
             if i["bot_id"] == GOOGLE_CALENDER_ID:
-                delete_message(Token, CHANNEL_ID, i["ts"])
-                cnt += 1
+                two_day = return_timestamp_movedbyday(2)
+                eight_day = return_timestamp_movedbyday(8)
+
+                if "this week" in i["text"]:
+                    if float(i["ts"]) > eight_day:
+                        delete_message(Token, CHANNEL_ID, i["ts"])
+                        cnt += 1
+                else:
+                    if float(i["ts"]) > two_day:
+                        delete_message(Token, CHANNEL_ID, i["ts"])
+                        cnt += 1
 
     print(f"{cnt} msg del done")
