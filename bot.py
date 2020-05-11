@@ -69,7 +69,7 @@ if __name__ == "__main__":
     else:
         day = -1
 
-    currentpath = "./"
+    currentpath = os.path.dirname(os.path.abspath(__file__))
     config_ini = configparser.ConfigParser()
     config_ini_path = currentpath + '/config.ini'
 
