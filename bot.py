@@ -92,15 +92,15 @@ if __name__ == "__main__":
     for i in json_data["messages"]:
         if 'bot_id' in i:
             if i["bot_id"] == GOOGLE_CALENDER_ID:
-                two_day = return_timestamp_movedbyday(2)
-                eight_day = return_timestamp_movedbyday(8)
+                two_day = return_timestamp_movedbyday(-1)
+                seven_day = return_timestamp_movedbyday(-6)
 
                 if "this week" in i["text"]:
-                    if float(i["ts"]) > eight_day:
+                    if float(i["ts"]) < seven_day:
                         delete_message(Token, CHANNEL_ID, i["ts"])
                         cnt += 1
                 else:
-                    if float(i["ts"]) > two_day:
+                    if float(i["ts"]) < two_day:
                         delete_message(Token, CHANNEL_ID, i["ts"])
                         cnt += 1
 
