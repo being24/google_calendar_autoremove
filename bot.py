@@ -6,7 +6,6 @@ import configparser
 import errno
 import json
 import os
-import pprint
 import time
 import typing
 from datetime import datetime, timedelta, timezone
