@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     currentpath = os.path.dirname(os.path.abspath(__file__))
     config_ini = configparser.ConfigParser()
-    config_ini_path = currentpath + '/config.ini'
+    config_ini_path = 'config.ini'
 
     if not os.path.exists(config_ini_path):
         raise FileNotFoundError(
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     read_default = config_ini['DEFAULT']
     Token = read_default.get('OAuth_Token')
     CHANNEL_ID = read_default.get('CHANNEL_ID')
-    GOOGLE_CALENDER_ID = read_default.get('GOOGLE_CALENDER_ID')
+    BOT_ID = read_default.get('BOT_ID')
 
     json_data = get_conversations_history(Token, CHANNEL_ID)
 
@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
     for i in json_data["messages"]:
         if 'bot_id' in i:
-            if i["bot_id"] == GOOGLE_CALENDER_ID:
+            if i["bot_id"] == BOT_ID:
                 two_day = return_timestamp_movedbyday(-1)
                 seven_day = return_timestamp_movedbyday(-6)
 
