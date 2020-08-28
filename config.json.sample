@@ -1,0 +1,12 @@
+{
+    "channel_1": {
+        "OAuth_Token" : "TOKEN",
+        "CHANNEL_ID" : "CHANNEL_ID",
+        "BOT_ID" : "BOT_ID"
+    },
+    "channel_2": {
+        "OAuth_Token" : "TOKEN",
+        "CHANNEL_ID" : "CHANNEL_ID",
+        "BOT_ID" : "BOT_ID"
+    }
+}
