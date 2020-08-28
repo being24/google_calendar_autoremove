@@ -2,12 +2,8 @@
 # coding: utf-8
 
 import argparse
-import configparser
-import errno
 import json
 import os
-import time
-import typing
 from datetime import datetime, timedelta, timezone
 
 import requests
@@ -69,38 +65,36 @@ if __name__ == "__main__":
         day = -1
 
     currentpath = os.path.dirname(os.path.abspath(__file__))
-    config_ini = configparser.ConfigParser()
-    config_ini_path = 'config.ini'
 
-    if not os.path.exists(config_ini_path):
-        raise FileNotFoundError(
-            errno.ENOENT, os.strerror(
-                errno.ENOENT), config_ini_path)
+    with open(f'{currentpath}/config.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
 
-    config_ini.read(config_ini_path, encoding='utf-8')
+    def load_conversations_and_del_msg(Token, CHANNEL_ID, BOT_ID, KEY) -> None:
+        json_data = get_conversations_history(Token, CHANNEL_ID)
 
-    read_default = config_ini['DEFAULT']
-    Token = read_default.get('OAuth_Token')
-    CHANNEL_ID = read_default.get('CHANNEL_ID')
-    BOT_ID = read_default.get('BOT_ID')
+        cnt = 0
 
-    json_data = get_conversations_history(Token, CHANNEL_ID)
+        for i in json_data["messages"]:
+            if 'bot_id' in i:
+                if i["bot_id"] == BOT_ID:
+                    two_day = return_timestamp_movedbyday(-1)
+                    seven_day = return_timestamp_movedbyday(-6)
 
-    cnt = 0
+                    if "this week" in i["text"]:
+                        if float(i["ts"]) < seven_day:
+                            delete_message(Token, CHANNEL_ID, i["ts"])
+                            cnt += 1
+                    else:
+                        if float(i["ts"]) < two_day:
+                            delete_message(Token, CHANNEL_ID, i["ts"])
+                            cnt += 1
 
-    for i in json_data["messages"]:
-        if 'bot_id' in i:
-            if i["bot_id"] == BOT_ID:
-                two_day = return_timestamp_movedbyday(-1)
-                seven_day = return_timestamp_movedbyday(-6)
+        print(f"{KEY} : {cnt} msg del done")
 
-                if "this week" in i["text"]:
-                    if float(i["ts"]) < seven_day:
-                        delete_message(Token, CHANNEL_ID, i["ts"])
-                        cnt += 1
-                else:
-                    if float(i["ts"]) < two_day:
-                        delete_message(Token, CHANNEL_ID, i["ts"])
-                        cnt += 1
-
-    print(f"{cnt} msg del done")
+    for i in data.keys():
+        temp_dict = data[i]
+        load_conversations_and_del_msg(
+            temp_dict["OAuth_Token"],
+            temp_dict["CHANNEL_ID"],
+            temp_dict["BOT_ID"],
+            i)
