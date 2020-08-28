@@ -16,7 +16,7 @@ import requests
 def get_conversations_history(
         token: str,
         channel: str,
-        latest: float = 0,
+        latest: int = 0,
         limit: int = 100):
 
     Conversations_History_API_URL = "https://slack.com/api/conversations.history"
