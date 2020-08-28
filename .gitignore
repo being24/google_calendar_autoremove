@@ -133,4 +133,5 @@ dmypy.json
 
 .vscode
 *.bak
-*.ini
+config.*
+config.ini
