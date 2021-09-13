@@ -89,7 +89,7 @@ if __name__ == "__main__":
                             delete_message(Token, CHANNEL_ID, i["ts"])
                             cnt += 1
 
-        print(f"{KEY} : {cnt} msg del done")
+        print(f"{KEY} : {cnt} msg del done") # hoge
 
     for i in data.keys():
         temp_dict = data[i]
