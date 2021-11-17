@@ -4,6 +4,7 @@
 import argparse
 import json
 import os
+import time
 from datetime import datetime, timedelta, timezone
 
 import requests
@@ -49,6 +50,8 @@ def delete_message(token: str, channel: str, ts: float):
 
     if json_data.get('ok', False) is False:
         print('message の削除に失敗')
+        if json_data.get('error', False) == 'ratelimited':
+            time.sleep(1)
         print(json_data)
 
 
@@ -89,7 +92,7 @@ if __name__ == "__main__":
                             delete_message(Token, CHANNEL_ID, i["ts"])
                             cnt += 1
 
-        print(f"{KEY} : {cnt} msg del done") # hoge
+        print(f"{KEY} : {cnt} msg del done")
 
     for i in data.keys():
         temp_dict = data[i]
